@@ -122,7 +122,9 @@ public class IniParser {
 					currentSection = new Section(sectionName);
 					SectionList.Add(sectionName, currentSection);
 				}
-				currentSection.Add(opt[0].Trim(), opt[1].Trim());
+				if (opt.Length == 2) {
+					currentSection.Add(opt[0].Trim(), opt[1].Trim());
+				}
 			}
 		}
 	}

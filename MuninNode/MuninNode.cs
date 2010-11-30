@@ -21,9 +21,17 @@ namespace MuninNode {
 		public static string nodename;
 		private List<IPlugin> plugins = new List<IPlugin>();
 		public static Dictionary<string, IPlugin> handlers = new Dictionary<string, IPlugin>();
+		// Pre generated list of handlers
 		public static string handlerList = null;
+		// Set as public to allow threds to unregister themselves
 		public static List<Thread> threadList = new List<Thread>();
 		
+		// Horible cludge to unlock blocking call of AcceptTcpClient();
+		private int listeningPort = 0;
+		private IPAddress listeningIp = null;
+
+
+
 		void Run () {
 			// Load configuration from file
 			config.parse("MuninNode.ini");
@@ -72,10 +80,9 @@ namespace MuninNode {
 			}
 			
 			
-			TcpListener listener = new TcpListener(
-				IPAddress.Parse(config.GetOption("GENERAL", "listen on", "127.0.0.1")),
-				Convert.ToInt32(config.GetOption("GENERAL", "port", "4949"))
-				);
+			listeningPort = Convert.ToInt32(config.GetOption("GENERAL", "port", "4949"));
+			listeningIp = IPAddress.Parse(config.GetOption("GENERAL", "listen on", "0"));
+			TcpListener listener = new TcpListener(listeningIp, listeningPort);
 			listener.Start();
 
 			#region Build allowed host CIDRCollection
@@ -136,6 +143,14 @@ namespace MuninNode {
 		protected override void OnStop () {
 			if (mainthread != null) {
 				mainthread.Abort();
+				try {
+					TcpClient tc = new TcpClient();
+					if (config.GetOption("GENERAL", "listen on", "0") != "0") {
+						tc.Connect(listeningIp, listeningPort);
+					} else {
+						tc.Connect("127.0.0.1", listeningPort);
+					}
+				} catch (Exception) {}
 				mainthread = null;
 			}
 		}

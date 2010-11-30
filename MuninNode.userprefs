@@ -2,7 +2,8 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" ctype="Workspace" />
   <MonoDevelop.Ide.Workbench ActiveDocument="MuninNode/MuninNode.cs" ctype="Workbench">
     <Files>
-      <File FileName="MuninNode/MuninNode.cs" Line="40" Column="65" />
+      <File FileName="MuninNode/MuninNode.cs" Line="99" Column="52" />
+      <File FileName="MuninNode/IniParser.cs" Line="127" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
