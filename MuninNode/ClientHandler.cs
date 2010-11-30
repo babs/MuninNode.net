@@ -25,24 +25,30 @@ namespace MuninNode {
 					sw.Flush();
 					while (client.Connected && !sr.EndOfStream) {
 						string[] spmsg = sr.ReadLine().Split(argSeparator, 2);
+
 						if (spmsg[0] == "quit") {
+							// Quit: exits
 							client.Close();
 							break;
 						} else if (spmsg[0] == "version") {
+							// Version: prints version
 							sw.Write("MuninNode.net version:" + MuninNode.version);
 						} else if (spmsg[0] == "nodes") {
+							// Nodes: print node name(s)
 							sw.Write(MuninNode.nodename + "\n");
 							sw.Write(".\n");
 						} else if (spmsg[0] == "list") {
+							// List: list of available plugins
 							if (spmsg.Length == 1 || spmsg[1] == MuninNode.nodename) {
 								sw.Write(MuninNode.handlerList);
 							}
 							sw.Write("\n");
 						} else if (spmsg[0] == "config") {
-							if (spmsg.Length < 2 || !MuninNode.handlers.ContainsKey(spmsg[1])) {
+							// Config (plugin): configuration for given plugin
+							if (spmsg.Length < 2 || !MuninNode.HasHandler(spmsg[1])) {
 								sw.Write("# Unknown service\n.\n");
 							} else {
-								string conf = MuninNode.handlers[spmsg[1]].Config(spmsg[1]);
+								string conf = MuninNode.GetHandler(spmsg[1]).Config(spmsg[1]);
 								sw.Write(conf);
 								if (!conf.EndsWith("\n")) {
 									sw.Write("\n.\n");
@@ -51,10 +57,11 @@ namespace MuninNode {
 								}
 							}
 						} else if (spmsg[0] == "fetch") {
-							if (spmsg.Length < 2 || !MuninNode.handlers.ContainsKey(spmsg[1])) {
+							// Fetch (plugin): values of the given plugin
+							if (spmsg.Length < 2 || !MuninNode.HasHandler(spmsg[1])) {
 								sw.Write("# Unknown service\n.\n");
 							} else {
-								string conf = MuninNode.handlers[spmsg[1]].Fetch(spmsg[1]);
+								string conf = MuninNode.GetHandler(spmsg[1]).Fetch(spmsg[1]);
 								sw.Write(conf);
 								if (!conf.EndsWith("\n")) {
 									sw.Write("\n.\n");
@@ -69,9 +76,11 @@ namespace MuninNode {
 							sw.Flush();
 						}
 					}
-				} catch (SystemException e) {
+				} catch (SystemException) {
+					/*
 					Console.WriteLine(e.Message);
 					Console.WriteLine(e.StackTrace);
+					*/
 				}
 				if ( client.Connected ) {
 					client.Close();

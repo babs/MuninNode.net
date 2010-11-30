@@ -34,6 +34,14 @@ public class Section {
 		}
 	}
 	
+	public string[] GetOptions () {
+		List<string> keylist = new List<string>();
+		foreach (string k in options.Keys) {
+			keylist.Add(k);
+		}
+		return keylist.ToArray();
+	}
+
 	public override string ToString () {
 		StringBuilder sb = new StringBuilder();
 		
@@ -124,6 +132,8 @@ public class IniParser {
 				}
 				if (opt.Length == 2) {
 					currentSection.Add(opt[0].Trim(), opt[1].Trim());
+				} else if (opt.Length == 1) {
+					currentSection.Add(opt[0].Trim(), "");
 				}
 			}
 		}
@@ -180,6 +190,15 @@ public class IniParser {
 		}
 	}
 	
+	public string[] GetOptions (string sectionnname) {
+		Section s = GetSection(sectionnname);
+		if (s != null) {
+			return s.GetOptions();
+		} else {
+			return null;
+		}
+	}
+
 	/// <summary>
 	/// Get the option value for the given section name and option name
 	/// return null if neither section hasn't been found nor option

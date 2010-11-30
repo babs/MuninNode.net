@@ -14,13 +14,13 @@ using System.ServiceProcess;
 using ddegois.Net.CIDR;
 
 namespace MuninNode {
-	class MuninNode : ServiceBase {
+	public class MuninNode : ServiceBase {
 		public const string version = "0.1b";
 		private Thread mainthread = null;
-		private IniParser config = new IniParser();
+		private static IniParser config = new IniParser();
 		public static string nodename;
 		private List<IPlugin> plugins = new List<IPlugin>();
-		public static Dictionary<string, IPlugin> handlers = new Dictionary<string, IPlugin>();
+		private static Dictionary<string, IPlugin> handlers = new Dictionary<string, IPlugin>();
 		// Pre generated list of handlers
 		public static string handlerList = null;
 		// Set as public to allow threds to unregister themselves
@@ -31,11 +31,17 @@ namespace MuninNode {
 		private IPAddress listeningIp = null;
 
 
-
 		void Run () {
 			// Load configuration from file
 			config.parse("MuninNode.ini");
 			
+			string[] includes = config.GetOptions("includes");
+			if (includes != null) {
+				foreach (string inc in includes) {
+					config.parse(inc);
+				}
+			}
+
 			#region Load plugins
 			string folder = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Plugins");
 			if (Directory.Exists(folder)) {
@@ -128,6 +134,22 @@ namespace MuninNode {
 			}
 		}
 		
+		public static string GetOption (string sectionname, string optionname, string defval) {
+			return config.GetOption(sectionname, optionname, defval);
+		}
+
+		public static IPlugin GetHandler (string handler) {
+			if (handlers.ContainsKey(handler)) {
+				return handlers[handler];
+			} else {
+				return null;
+			}
+		}
+
+		public static bool HasHandler (string handler) {
+			return handlers.ContainsKey(handler);
+		}
+
 		#region service handling and main emulation by calling run
 		
 		protected override void OnStart (string[] args) {
