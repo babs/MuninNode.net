@@ -55,10 +55,25 @@ namespace MuninNode {
 							plugin.Load();
 							string[] pluginhandlers = plugin.AutoConfig();
 							if (pluginhandlers.Length > 0) {
+								int registered_handlers = 0;
 								for (int i = 0; i < pluginhandlers.Length; i++) {
-									handlers.Add(pluginhandlers[i], plugin);
+									if (handlers.ContainsKey(pluginhandlers[i])) {
+										Console.WriteLine(
+											"WARNING: Plugin {0} is trying to register {1} handler but {2} already registered it.",
+											plugin.GetName(),
+											pluginhandlers[i],
+											handlers[pluginhandlers[i]].GetName()
+											);
+									} else {
+										registered_handlers++;
+										handlers.Add(pluginhandlers[i], plugin);
+									}
 								}
-								plugins.Add(plugin);
+								if (registered_handlers > 0) {
+									plugins.Add(plugin);
+								} else {
+									plugin.UnLoad();
+								}
 							} else {
 								plugin.UnLoad();
 							}
