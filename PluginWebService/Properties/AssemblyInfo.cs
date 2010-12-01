@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Plugin1")]
+[assembly: AssemblyTitle("PluginWebService")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Damien Degois")]
-[assembly: AssemblyProduct("Plugin1")]
+[assembly: AssemblyProduct("PluginWebService")]
 [assembly: AssemblyCopyright("Copyright © Damien Degois")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("aef4dcd7-0665-4fc3-8e73-25dc8f20f685")]
+[assembly: Guid("e89fe64d-8ae3-4ac9-b3cb-367ca2064dc7")]
 
 // Version information for an assembly consists of the following four values:
 //

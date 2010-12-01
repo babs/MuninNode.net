@@ -1,1 +1,73 @@
-<?xml version="1.0" encoding="utf-8"?><Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  <PropertyGroup>    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>    <Platform Condition=" '$(Platform)' == '' ">Mixed Platforms</Platform>    <ProductVersion>10.0.0</ProductVersion>    <SchemaVersion>2.0</SchemaVersion>    <ProjectGuid>{F9975F9E-48E3-4FC6-B908-72548D9DECA0}</ProjectGuid>    <OutputType>Library</OutputType>    <RootNamespace>PluginWebService</RootNamespace>    <AssemblyName>PluginWebService</AssemblyName>    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>  </PropertyGroup>  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Mixed Platforms' ">    <DebugSymbols>true</DebugSymbols>    <DebugType>full</DebugType>    <Optimize>false</Optimize>    <OutputPath>..\MuninNode\bin\Debug\Plugins\</OutputPath>    <DefineConstants>DEBUG</DefineConstants>    <ErrorReport>prompt</ErrorReport>    <WarningLevel>4</WarningLevel>    <ConsolePause>false</ConsolePause>  </PropertyGroup>  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Mixed Platforms' ">    <DebugType>none</DebugType>    <Optimize>false</Optimize>    <OutputPath>..\MuninNode\bin\Release\Plugins\</OutputPath>    <ErrorReport>prompt</ErrorReport>    <WarningLevel>4</WarningLevel>    <ConsolePause>false</ConsolePause>  </PropertyGroup>  <ItemGroup>    <Compile Include="PluginWebService.cs" />  </ItemGroup>  <ItemGroup>    <ProjectReference Include="..\MuninNode\MuninNode.csproj">      <Project>{96446148-1CB0-4BA5-B3DE-3E05CA52BC45}</Project>      <Name>MuninNode</Name>    </ProjectReference>  </ItemGroup>  <ItemGroup>    <Reference Include="System" />    <Reference Include="System.ServiceProcess" />  </ItemGroup>  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />  <PropertyGroup>    <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)MuninNode\$(OutDir)Plugins"</PostBuildEvent>  </PropertyGroup>  <PropertyGroup>    <PreBuildEvent>IF NOT EXIST  "$(SolutionDir)MuninNode\$(OutDir)Plugins" mkdir "$(SolutionDir)MuninNode\$(OutDir)Plugins"</PreBuildEvent>  </PropertyGroup>  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.        Other similar extension points exist, see Microsoft.Common.targets.  <Target Name="BeforeBuild">  </Target>  <Target Name="AfterBuild">  </Target>  --></Project>
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F9975F9E-48E3-4FC6-B908-72548D9DECA0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>PluginWebService</RootNamespace>
+    <AssemblyName>PluginWebService</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Mixed Platforms' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\MuninNode\bin\Debug\Plugins\</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Mixed Platforms' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\MuninNode\bin\Release\Plugins\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="PluginWebService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MuninNode\MuninNode.csproj">
+      <Project>{96446148-1CB0-4BA5-B3DE-3E05CA52BC45}</Project>
+      <Name>MuninNode</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ServiceProcess" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)MuninNode\$(OutDir)Plugins"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>IF NOT EXIST  "$(SolutionDir)MuninNode\$(OutDir)Plugins" mkdir "$(SolutionDir)MuninNode\$(OutDir)Plugins"</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\MuninNode\bin\Debug\Plugins\</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\MuninNode\bin\Release\Plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.        Other similar extension points exist, see Microsoft.Common.targets.  <Target Name="BeforeBuild">  </Target>  <Target Name="AfterBuild">  </Target>  -->
+</Project>
