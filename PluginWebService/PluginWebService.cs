@@ -8,9 +8,20 @@ namespace PluginWebService {
 	public class PluginWebService : IPlugin {
 		public const string name = "WebService";
 		public const string version = "0.1";
+		private IniParser config = SingletonConfig.Instance;
 		private Dictionary<string,PerformanceCounter> perfcounters = new Dictionary<string, PerformanceCounter>();
 
 		public void Load () {
+			try {
+				PerformanceCounter ws_current_conn = new PerformanceCounter();
+				ws_current_conn.CategoryName = "Web Service";
+				ws_current_conn.CounterName = "Current Connections";
+				ws_current_conn.InstanceName = "_Total";
+				ws_current_conn.NextValue();
+				perfcounters.Add("ws_current_conn", ws_current_conn);
+			} catch (Exception) {
+			}
+
 			try {
 				PerformanceCounter ws_total_conn = new PerformanceCounter();
 				ws_total_conn.CategoryName = "Web Service";
@@ -76,7 +87,7 @@ namespace PluginWebService {
 			return name;
 		}
 		public string[] AutoConfig () {
-			if (MuninNode.MuninNode.GetOption("WebService", "load", "true") == "false") {
+			if (config.GetOption("WebService", "load", "true") == "false") {
 				return new string[] {  };
 			} else {
 				List<string> working = new List<string>();

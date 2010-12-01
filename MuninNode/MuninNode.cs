@@ -17,7 +17,7 @@ namespace MuninNode {
 	public class MuninNode : ServiceBase {
 		public const string version = "0.1b";
 		private Thread mainthread = null;
-		private static IniParser config = new IniParser();
+		private static IniParser config = SingletonConfig.Instance;
 		public static string nodename;
 		private List<IPlugin> plugins = new List<IPlugin>();
 		private static Dictionary<string, IPlugin> handlers = new Dictionary<string, IPlugin>();

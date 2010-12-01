@@ -66,6 +66,7 @@
     <Compile Include="MuninNode.cs" />
     <Compile Include="IniParser.cs" />
     <Compile Include="ddegois.Net.CIDR.cs" />
+    <Compile Include="SingletonConfig.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

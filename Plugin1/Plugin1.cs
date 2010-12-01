@@ -5,6 +5,8 @@ namespace Plugin1 {
 	public class Plugin1 : IPlugin {
 		public const string name = "Plugin1";
 		public const string version = "0.1a";
+		private IniParser config = SingletonConfig.Instance;
+
 		public void Load () {
 			Console.WriteLine(name + " Loaded");
 		}
@@ -24,7 +26,7 @@ namespace Plugin1 {
 			return name;
 		}
 		public string[] AutoConfig () {
-			if (MuninNode.MuninNode.GetOption("Plugin1", "load", "true") == "false") {
+			if (config.GetOption("Plugin1", "load", "true") == "false") {
 				return new string[] {  };
 			} else {
 				return new string[] { "test" };
