@@ -66,15 +66,25 @@ namespace PluginWebService {
 		}
 		public string Config (string probe) {
 			if (perfcounters.ContainsKey(probe)) {
-				PerformanceCounter pc = perfcounters[probe];
-				string namewototal = pc.CounterName.Replace("Total ", "");
 				StringBuilder sb = new StringBuilder();
-				sb.AppendFormat("graph_title {0}\n", namewototal);
-				sb.Append("graph_args --base 1000 -l 0\n");
-				sb.AppendFormat("graph_vlabel {0}/s\n", namewototal);
-				sb.AppendFormat("graph_category {0}\n", pc.CategoryName);
-				sb.AppendFormat("{0}.type DERIVE\n", probe);
-				sb.AppendFormat("{0}.label {1}\n", probe, namewototal);
+				if (probe == "ws_current_conn") {
+					PerformanceCounter pc = perfcounters[probe];
+					sb.AppendFormat("graph_title {0}\n", pc.CounterName);
+					sb.Append("graph_args --base 1000 -l 0\n");
+					sb.AppendFormat("graph_vlabel {0}\n", pc.CounterName);
+					sb.AppendFormat("graph_category {0}\n", pc.CategoryName);
+					sb.AppendFormat("{0}.type GAUGE\n", probe);
+					sb.AppendFormat("{0}.label {1}\n", probe, pc.CounterName);
+				} else {
+					PerformanceCounter pc = perfcounters[probe];
+					string namewototal = pc.CounterName.Replace("Total ", "");
+					sb.AppendFormat("graph_title {0}\n", namewototal);
+					sb.Append("graph_args --base 1000 -l 0\n");
+					sb.AppendFormat("graph_vlabel {0}/s\n", namewototal);
+					sb.AppendFormat("graph_category {0}\n", pc.CategoryName);
+					sb.AppendFormat("{0}.type DERIVE\n", probe);
+					sb.AppendFormat("{0}.label {1}\n", probe, namewototal);
+				}
 				return sb.ToString();
 			} else {
 				return null;
