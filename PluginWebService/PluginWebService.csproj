@@ -55,12 +55,6 @@
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)MuninNode\$(OutDir)Plugins"</PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PreBuildEvent>IF NOT EXIST  "$(SolutionDir)MuninNode\$(OutDir)Plugins" mkdir "$(SolutionDir)MuninNode\$(OutDir)Plugins"</PreBuildEvent>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -95,5 +89,10 @@
     </CustomCommands>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.        Other similar extension points exist, see Microsoft.Common.targets.  <Target Name="BeforeBuild">  </Target>  <Target Name="AfterBuild">  </Target>  -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)MuninNode\$(OutDir)Plugins"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>IF NOT EXIST  "$(SolutionDir)MuninNode\$(OutDir)Plugins" mkdir "$(SolutionDir)MuninNode\$(OutDir)Plugins"</PreBuildEvent>
+  </PropertyGroup>
 </Project>
