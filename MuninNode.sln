@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuninNode", "MuninNode\Muni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginWebService", "PluginWebService\PluginWebService.csproj", "{F9975F9E-48E3-4FC6-B908-72548D9DECA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginASPNET", "PluginASPNET\PluginASPNET.csproj", "{EB4FAF61-B0CD-4D85-AD23-EE5BFD3AC282}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,14 @@ Global
 		{C2907D17-4C87-4A13-BB8B-3D51A3F39431}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C2907D17-4C87-4A13-BB8B-3D51A3F39431}.Release|x86.ActiveCfg = Release|x86
 		{C2907D17-4C87-4A13-BB8B-3D51A3F39431}.Release|x86.Build.0 = Release|x86
+		{EB4FAF61-B0CD-4D85-AD23-EE5BFD3AC282}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB4FAF61-B0CD-4D85-AD23-EE5BFD3AC282}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB4FAF61-B0CD-4D85-AD23-EE5BFD3AC282}.Debug|x86.ActiveCfg = Debug|x86
+		{EB4FAF61-B0CD-4D85-AD23-EE5BFD3AC282}.Debug|x86.Build.0 = Debug|x86
+		{EB4FAF61-B0CD-4D85-AD23-EE5BFD3AC282}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB4FAF61-B0CD-4D85-AD23-EE5BFD3AC282}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB4FAF61-B0CD-4D85-AD23-EE5BFD3AC282}.Release|x86.ActiveCfg = Release|x86
+		{EB4FAF61-B0CD-4D85-AD23-EE5BFD3AC282}.Release|x86.Build.0 = Release|x86
 		{F9975F9E-48E3-4FC6-B908-72548D9DECA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F9975F9E-48E3-4FC6-B908-72548D9DECA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9975F9E-48E3-4FC6-B908-72548D9DECA0}.Debug|x86.ActiveCfg = Debug|x86
