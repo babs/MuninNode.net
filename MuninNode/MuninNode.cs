@@ -104,7 +104,13 @@ namespace MuninNode {
 			listeningPort = Convert.ToInt32(config.GetOption("GENERAL", "port", "4949"));
 			listeningIp = IPAddress.Parse(config.GetOption("GENERAL", "listen on", "0"));
 			TcpListener listener = new TcpListener(listeningIp, listeningPort);
-			listener.Start();
+			try {
+				listener.Start();
+			} catch (SocketException e) {
+				Console.WriteLine(e.Message);
+				Console.WriteLine("Process STOPED");
+				return;
+			}
 
 			#region Build allowed host CIDRCollection
 			CIDRCollection allowed_hosts = new CIDRCollection();
@@ -124,7 +130,7 @@ namespace MuninNode {
 					Console.WriteLine("Address: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address);
 					if (!allowed_hosts.Has(((IPEndPoint)client.Client.RemoteEndPoint).Address)) {
 						client.Close();
-						Console.WriteLine("Connection rejected");
+						//Console.WriteLine("Connection rejected");
 						continue;
 					}
 					

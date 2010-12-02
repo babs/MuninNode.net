@@ -14,10 +14,10 @@ namespace MuninNode {
 			this.client = client;
 		}
 		public void Run () {
-			Console.WriteLine(client.Client.RemoteEndPoint.ToString());
+			//Console.WriteLine(client.Client.RemoteEndPoint.ToString());
 			if (client.Connected) {
-				string remoteaddr = client.Client.RemoteEndPoint.ToString();
-				Console.WriteLine("Got a client: {0}", remoteaddr);
+				//string remoteaddr = client.Client.RemoteEndPoint.ToString();
+				//Console.WriteLine("Got a client: {0}", remoteaddr);
 				StreamWriter sw = new StreamWriter(client.GetStream());
 				StreamReader sr = new StreamReader(client.GetStream());
 				try {
@@ -85,7 +85,7 @@ namespace MuninNode {
 				if ( client.Connected ) {
 					client.Close();
 				}
-				Console.WriteLine("Client disconnected: {0}", remoteaddr);
+				//Console.WriteLine("Client disconnected: {0}", remoteaddr);
 				lock (MuninNode.threadList) {
 					MuninNode.threadList.Remove(mythread);
 				}
