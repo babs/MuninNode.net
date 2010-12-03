@@ -13,7 +13,7 @@ namespace PluginASPNET {
 		private Dictionary<string, PerformanceCounter> perfcounters = new Dictionary<string, PerformanceCounter>();
 
 		public void Load () {
-			string Cat = "ASP.NET Applications";
+			string Cat = config.GetOption("ASPNET", "category name","ASP.NET Applications");
 			string Inst = "__Total__";
 			try {
 				PerformanceCounter aspnet_req_total = new PerformanceCounter();
@@ -65,7 +65,7 @@ namespace PluginASPNET {
 				sb.AppendFormat("graph_title {0}\n", namewototal);
 				sb.Append("graph_args --base 1000 -l 0\n");
 				sb.AppendFormat("graph_vlabel {0}/s\n", namewototal);
-				sb.AppendFormat("graph_category {0}\n", pc.CategoryName);
+				sb.AppendFormat("graph_category {0}\n", "ASP.NET Applications");
 				sb.AppendFormat("{0}.type DERIVE\n", probe);
 				sb.AppendFormat("{0}.min 0\n", probe);
 				sb.AppendFormat("{0}.label {1}\n", probe, namewototal);
