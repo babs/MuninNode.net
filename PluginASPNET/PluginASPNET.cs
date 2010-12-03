@@ -52,7 +52,7 @@ namespace PluginASPNET {
 		}
 		public string Fetch (string probe) {
 			if (perfcounters.ContainsKey(probe)) {
-				return String.Format("{0}.value {1}\n", probe, perfcounters[probe].NextValue());
+				return String.Format("{0}.value {1:0}\n", probe, perfcounters[probe].NextValue());
 			} else {
 				return null;
 			}
