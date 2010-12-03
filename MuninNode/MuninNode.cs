@@ -33,7 +33,7 @@ namespace MuninNode {
 
 		void Run () {
 			// Load configuration from file
-			config.parse("MuninNode.ini");
+			config.parse(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "MuninNode.ini"));
 			
 			string[] includes = config.GetOptions("includes");
 			if (includes != null) {
