@@ -145,12 +145,12 @@ namespace MuninNode {
 				}
 
 			} catch (ThreadAbortException) {
+				foreach (IPlugin plugin in plugins) {
+					plugin.UnLoad();
+				}
 				foreach (Thread t in threadList) {
 					Console.WriteLine("Abort thtread");
 					t.Abort();
-				}
-				foreach (IPlugin plugin in plugins) {
-					plugin.UnLoad();
 				}
 			}
 		}
