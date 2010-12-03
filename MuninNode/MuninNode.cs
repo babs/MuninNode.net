@@ -127,7 +127,7 @@ namespace MuninNode {
 					TcpClient client = listener.AcceptTcpClient();
 					client.ReceiveTimeout = 1000 * inactivity_timeout;
 
-					Console.WriteLine("Address: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address);
+					//Console.WriteLine("Address: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address);
 					if (!allowed_hosts.Has(((IPEndPoint)client.Client.RemoteEndPoint).Address)) {
 						client.Close();
 						//Console.WriteLine("Connection rejected");
