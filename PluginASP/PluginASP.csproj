@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F9FEA132-B4C5-41E3-90CE-4BABA03CB90A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>PluginASP</RootNamespace>
+    <AssemblyName>PluginASP</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="BeforeBuild" command="mkdir -p ${SolutionDir}/MuninNode/bin/${ProjectConfigName}/Plugins/" workingdir="${SolutionDir}" />
+        <Command type="AfterBuild" command="cp -p ${TargetFile} ${SolutionDir}/MuninNode/bin/${ProjectConfigName}/Plugins/" workingdir="${SolutionDir}" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <DefineConstants>TRACE</DefineConstants>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="BeforeBuild" command="mkdir -p ${SolutionDir}/MuninNode/bin/${ProjectConfigName}/Plugins/" workingdir="${SolutionDir}" />
+        <Command type="AfterBuild" command="cp -p ${TargetFile} ${SolutionDir}/MuninNode/bin/${ProjectConfigName}/Plugins/" workingdir="${SolutionDir}" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\x86</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="BeforeBuild" command="mkdir -p ${SolutionDir}/MuninNode/bin/${ProjectConfigName}/${ProjectConfigPlat}/Plugins/" workingdir="${SolutionDir}" />
+        <Command type="AfterBuild" command="cp -p ${TargetFile} ${SolutionDir}/MuninNode/bin/${ProjectConfigName}/${ProjectConfigPlat}/Plugins/" workingdir="${SolutionDir}" />
+      </CustomCommands>
+    </CustomCommands>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\x86</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="BeforeBuild" command="mkdir -p ${SolutionDir}/MuninNode/bin/${ProjectConfigName}/${ProjectConfigPlat}/Plugins/" workingdir="${SolutionDir}" />
+        <Command type="AfterBuild" command="cp -p ${TargetFile} ${SolutionDir}/MuninNode/bin/${ProjectConfigName}/${ProjectConfigPlat}/Plugins/" workingdir="${SolutionDir}" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Management" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PluginASP.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MuninNode\MuninNode.csproj">
+      <Project>{96446148-1CB0-4BA5-B3DE-3E05CA52BC45}</Project>
+      <Name>MuninNode</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)MuninNode\$(OutDir)Plugins"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>IF NOT EXIST  "$(SolutionDir)MuninNode\$(OutDir)Plugins" mkdir "$(SolutionDir)MuninNode\$(OutDir)Plugins"</PreBuildEvent>
+  </PropertyGroup>
+</Project>
