@@ -103,7 +103,7 @@ namespace PluginCPU {
 					cycliclists[cntname][indice] = perfcounters[cntname].NextValue();
 				}
 				indice++;
-				if (waiter.WaitOne(1000)) {
+				if (waiter.WaitOne(1000, false)) {
 					break;
 				}
 			}
