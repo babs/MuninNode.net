@@ -67,6 +67,7 @@ namespace PluginASPNET {
 				sb.AppendFormat("graph_vlabel {0}/s\n", namewototal);
 				sb.AppendFormat("graph_category {0}\n", pc.CategoryName);
 				sb.AppendFormat("{0}.type DERIVE\n", probe);
+				sb.AppendFormat("{0}.min 0\n", probe);
 				sb.AppendFormat("{0}.label {1}\n", probe, namewototal);
 				return sb.ToString();
 			} else {
