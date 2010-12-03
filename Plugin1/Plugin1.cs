@@ -26,7 +26,7 @@ namespace Plugin1 {
 			return name;
 		}
 		public string[] AutoConfig () {
-			if (config.GetOption("Plugin1", "load", "true") == "false") {
+			if (config.GetOption("Plugin1", "load", "false") == "false") {
 				return new string[] {  };
 			} else {
 				return new string[] { "test" };
