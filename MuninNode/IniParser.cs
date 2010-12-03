@@ -57,7 +57,7 @@ public class Section {
 public class IniParser {
 	private Dictionary<string, Section> SectionList = new Dictionary<string, Section>();
 	private char[] commentSeparator = { ';' };
-	private char[] optionSeparator = { '=', ':' };
+	private char[] optionSeparator = { '=' };
 	/// <summary>
 	/// Generate a new ini file parser
 	/// </summary>
