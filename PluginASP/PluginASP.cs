@@ -26,7 +26,7 @@ namespace PluginASP {
 			try {
 				PerformanceCounter asp_req_failed = new PerformanceCounter();
 				asp_req_failed.CategoryName = Cat;
-				asp_req_failed.CounterName = "Requests Failed";
+				asp_req_failed.CounterName = "Requests Failed Total";
 				asp_req_failed.NextValue();
 				perfcounters.Add("asp_req_failed", asp_req_failed);
 			} catch (Exception) {
@@ -35,7 +35,7 @@ namespace PluginASP {
 			try {
 				PerformanceCounter asp_err_exec = new PerformanceCounter();
 				asp_err_exec.CategoryName = Cat;
-				asp_err_exec.CounterName = "Errors During Execution";
+				asp_err_exec.CounterName = "Errors During Script Runtime";
 				asp_err_exec.NextValue();
 				perfcounters.Add("asp_err_exec", asp_err_exec);
 			} catch (Exception) {
