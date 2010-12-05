@@ -19,75 +19,56 @@ namespace PluginCPU {
 		private int indice = 0;
 		private int lenretention = 300;
 		
+		private bool RegisterPerfCounter(string RegistrationName, string CategoryName, string CounterName, string InstanceName) {
+			try {
+				PerformanceCounter pc = new PerformanceCounter();
+				pc.CategoryName = CategoryName;
+				pc.CounterName = CounterName;
+				if (InstanceName != null) {
+					pc.InstanceName = InstanceName;
+				}
+				pc.NextValue();
+				perfcounters.Add(RegistrationName, pc);
+				return true;
+			} catch (Exception) {
+				return false;
+			}
+		}
+
 		public void Load () {
 			string Cat = "Processor";
 			string Inst = "_Total";
-			try {
-				PerformanceCounter cpu_dpc_time = new PerformanceCounter();
-				cpu_dpc_time.CategoryName = Cat;
-				cpu_dpc_time.CounterName = "% DPC Time";
-				cpu_dpc_time.InstanceName = Inst;
-				cpu_dpc_time.NextValue();
-				perfcounters.Add("cpu_dpc_time", cpu_dpc_time);
+
+			if (RegisterPerfCounter( "cpu_dpc_time",
+			                Cat, "% DPC Time", Inst )) {
 				cycliclists.Add("cpu_dpc_time", new float?[lenretention]);
-			} catch (Exception) {
 			}
-			
-			try {
-				PerformanceCounter cpu_idle_time = new PerformanceCounter();
-				cpu_idle_time.CategoryName = Cat;
-				cpu_idle_time.CounterName = "% Idle Time";
-				cpu_idle_time.InstanceName = Inst;
-				cpu_idle_time.NextValue();
-				perfcounters.Add("cpu_idle_time", cpu_idle_time);
+
+			if (RegisterPerfCounter( "cpu_idle_time",
+			                Cat, "% Idle Time", Inst )) {
 				cycliclists.Add("cpu_idle_time", new float?[lenretention]);
-			} catch (Exception) {
 			}
-			
-			try {
-				PerformanceCounter cpu_interrupt_time = new PerformanceCounter();
-				cpu_interrupt_time.CategoryName = Cat;
-				cpu_interrupt_time.CounterName = "% Interrupt Time";
-				cpu_interrupt_time.InstanceName = Inst;
-				cpu_interrupt_time.NextValue();
-				perfcounters.Add("cpu_interrupt_time", cpu_interrupt_time);
+
+			if (RegisterPerfCounter( "cpu_interrupt_time",
+			                Cat, "% Interrupt Time", Inst )) {
 				cycliclists.Add("cpu_interrupt_time", new float?[lenretention]);
-			} catch (Exception) {
 			}
-			
-			try {
-				PerformanceCounter cpu_privileged_time = new PerformanceCounter();
-				cpu_privileged_time.CategoryName = Cat;
-				cpu_privileged_time.CounterName = "% Privileged Time";
-				cpu_privileged_time.InstanceName = Inst;
-				cpu_privileged_time.NextValue();
-				perfcounters.Add("cpu_privileged_time", cpu_privileged_time);
+
+			if (RegisterPerfCounter( "cpu_privileged_time",
+			                Cat, "% Privileged Time", Inst )) {
 				cycliclists.Add("cpu_privileged_time", new float?[lenretention]);
-			} catch (Exception) {
 			}
-			
-			try {
-				PerformanceCounter cpu_processor_time = new PerformanceCounter();
-				cpu_processor_time.CategoryName = Cat;
-				cpu_processor_time.CounterName = "% Processor Time";
-				cpu_processor_time.InstanceName = Inst;
-				cpu_processor_time.NextValue();
-				perfcounters.Add("cpu_processor_time", cpu_processor_time);
+
+			if (RegisterPerfCounter( "cpu_processor_time",
+			                Cat, "% Processor Time", Inst )) {
 				cycliclists.Add("cpu_processor_time", new float?[lenretention]);
-			} catch (Exception) {
 			}
-			
-			try {
-				PerformanceCounter cpu_user_time = new PerformanceCounter();
-				cpu_user_time.CategoryName = Cat;
-				cpu_user_time.CounterName = "% User Time";
-				cpu_user_time.InstanceName = Inst;
-				cpu_user_time.NextValue();
-				perfcounters.Add("cpu_user_time", cpu_user_time);
+
+			if (RegisterPerfCounter( "cpu_user_time",
+			                Cat, "% User Time", Inst )) {
 				cycliclists.Add("cpu_user_time", new float?[lenretention]);
-			} catch (Exception) {
 			}
-			
+
 			updater = new Thread(UpdateCounters);
 			updater.Start();
 			

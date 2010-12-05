@@ -11,47 +11,38 @@ namespace PluginWebService {
 		private IniParser config = SingletonConfig.Instance;
 		private Dictionary<string,PerformanceCounter> perfcounters = new Dictionary<string, PerformanceCounter>();
 
-		public void Load () {
+		private bool RegisterPerfCounter(string RegistrationName, string CategoryName, string CounterName, string InstanceName) {
 			try {
-				PerformanceCounter ws_current_conn = new PerformanceCounter();
-				ws_current_conn.CategoryName = "Web Service";
-				ws_current_conn.CounterName = "Current Connections";
-				ws_current_conn.InstanceName = "_Total";
-				ws_current_conn.NextValue();
-				perfcounters.Add("ws_current_conn", ws_current_conn);
+				PerformanceCounter pc = new PerformanceCounter();
+				pc.CategoryName = CategoryName;
+				pc.CounterName = CounterName;
+				if (InstanceName != null) {
+					pc.InstanceName = InstanceName;
+				}
+				pc.NextValue();
+				perfcounters.Add(RegistrationName, pc);
+				return true;
 			} catch (Exception) {
+				return false;
 			}
+		}
 
-			try {
-				PerformanceCounter ws_total_conn = new PerformanceCounter();
-				ws_total_conn.CategoryName = "Web Service";
-				ws_total_conn.CounterName = "Total Connection Attempts (all instances)";
-				ws_total_conn.InstanceName = "_Total";
-				ws_total_conn.NextValue();
-				perfcounters.Add("ws_total_conn", ws_total_conn);
-			} catch (Exception) {
-			}
+		public void Load () {
+			string Cat = "Web Service";
+			string Inst  = "_Total";
 			
-			try {
-				PerformanceCounter ws_total_isapi = new PerformanceCounter();
-				ws_total_isapi.CategoryName = "Web Service";
-				ws_total_isapi.CounterName = "Total ISAPI Extension Requests";
-				ws_total_isapi.InstanceName = "_Total";
-				ws_total_isapi.NextValue();
-				perfcounters.Add("ws_total_isapi", ws_total_isapi);
-			} catch (Exception) {
-			}
-			
-			try {
-				PerformanceCounter ws_total_methods = new PerformanceCounter();
-				ws_total_methods.CategoryName = "Web Service";
-				ws_total_methods.CounterName = "Total Method Requests";
-				ws_total_methods.InstanceName = "_Total";
-				ws_total_methods.NextValue();
-				perfcounters.Add("ws_total_methods", ws_total_methods);
-			} catch (Exception) {
-			}
-			
+			RegisterPerfCounter("ws_current_conn",
+			            Cat, "Current Connections", Inst);
+
+			RegisterPerfCounter("ws_total_conn",
+			            Cat, "Total Connection Attempts (all instances)", Inst);
+
+			RegisterPerfCounter("ws_total_isapi",
+			            Cat, "Total ISAPI Extension Requests", Inst);
+
+			RegisterPerfCounter("ws_total_methods",
+			            Cat, "Total Method Requests", Inst);
+
 			Console.WriteLine(name+" Loaded");
 		}
 		public void UnLoad () {

@@ -12,38 +12,34 @@ namespace PluginASPNET {
 		private IniParser config = SingletonConfig.Instance;
 		private Dictionary<string, PerformanceCounter> perfcounters = new Dictionary<string, PerformanceCounter>();
 
+		private bool RegisterPerfCounter(string RegistrationName, string CategoryName, string CounterName, string InstanceName) {
+			try {
+				PerformanceCounter pc = new PerformanceCounter();
+				pc.CategoryName = CategoryName;
+				pc.CounterName = CounterName;
+				if (InstanceName != null) {
+					pc.InstanceName = InstanceName;
+				}
+				pc.NextValue();
+				perfcounters.Add(RegistrationName, pc);
+				return true;
+			} catch (Exception) {
+				return false;
+			}
+		}
+
 		public void Load () {
 			string Cat = config.GetOption("ASPNET", "category name","ASP.NET Applications");
 			string Inst = "__Total__";
-			try {
-				PerformanceCounter aspnet_req_total = new PerformanceCounter();
-				aspnet_req_total.CategoryName = Cat;
-				aspnet_req_total.CounterName = "Requests Total";
-				aspnet_req_total.InstanceName = Inst;
-				aspnet_req_total.NextValue();
-				perfcounters.Add("aspnet_req_total", aspnet_req_total);
-			} catch (Exception) {
-			}
-			
-			try {
-				PerformanceCounter aspnet_req_failed = new PerformanceCounter();
-				aspnet_req_failed.CategoryName = Cat;
-				aspnet_req_failed.CounterName = "Requests Failed";
-				aspnet_req_failed.InstanceName = Inst;
-				aspnet_req_failed.NextValue();
-				perfcounters.Add("aspnet_req_failed", aspnet_req_failed);
-			} catch (Exception) {
-			}
 
-			try {
-				PerformanceCounter aspnet_err_exec = new PerformanceCounter();
-				aspnet_err_exec.CategoryName = Cat;
-				aspnet_err_exec.CounterName = "Errors During Execution";
-				aspnet_err_exec.InstanceName = Inst;
-				aspnet_err_exec.NextValue();
-				perfcounters.Add("aspnet_err_exec", aspnet_err_exec);
-			} catch (Exception) {
-			}
+			RegisterPerfCounter( "aspnet_req_total",
+			         Cat, "Requests Total", Inst);
+
+			RegisterPerfCounter( "aspnet_req_failed",
+			         Cat, "Requests Failed", Inst);
+
+			RegisterPerfCounter( "aspnet_err_exec",
+			         Cat, "Errors During Execution", Inst);
 
 			Console.WriteLine(name + " Loaded");
 		}

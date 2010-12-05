@@ -12,35 +12,33 @@ namespace PluginASP {
 		private IniParser config = SingletonConfig.Instance;
 		private Dictionary<string, PerformanceCounter> perfcounters = new Dictionary<string, PerformanceCounter>();
 
+		private bool RegisterPerfCounter(string RegistrationName, string CategoryName, string CounterName, string InstanceName) {
+			try {
+				PerformanceCounter pc = new PerformanceCounter();
+				pc.CategoryName = CategoryName;
+				pc.CounterName = CounterName;
+				if (InstanceName != null) {
+					pc.InstanceName = InstanceName;
+				}
+				pc.NextValue();
+				perfcounters.Add(RegistrationName, pc);
+				return true;
+			} catch (Exception) {
+				return false;
+			}
+		}
+
 		public void Load () {
 			string Cat = "Active Server Pages";
-			try {
-				PerformanceCounter asp_req_total = new PerformanceCounter();
-				asp_req_total.CategoryName = Cat;
-				asp_req_total.CounterName = "Requests Total";
-				asp_req_total.NextValue();
-				perfcounters.Add("asp_req_total", asp_req_total);
-			} catch (Exception) {
-			}
-			
-			try {
-				PerformanceCounter asp_req_failed = new PerformanceCounter();
-				asp_req_failed.CategoryName = Cat;
-				asp_req_failed.CounterName = "Requests Failed Total";
-				asp_req_failed.NextValue();
-				perfcounters.Add("asp_req_failed", asp_req_failed);
-			} catch (Exception) {
-			}
-			
-			try {
-				PerformanceCounter asp_err_exec = new PerformanceCounter();
-				asp_err_exec.CategoryName = Cat;
-				asp_err_exec.CounterName = "Errors During Script Runtime";
-				asp_err_exec.NextValue();
-				perfcounters.Add("asp_err_exec", asp_err_exec);
-			} catch (Exception) {
-			}
-			
+			RegisterPerfCounter("asp_req_total",
+			              Cat, "Requests Total", null );
+
+			RegisterPerfCounter("asp_req_failed",
+			              Cat, "Requests Failed Total", null );
+
+			RegisterPerfCounter("asp_err_exec",
+			              Cat, "Errors During Script Runtime", null );
+
 			Console.WriteLine(name + " Loaded");
 		}
 		public void UnLoad () {
