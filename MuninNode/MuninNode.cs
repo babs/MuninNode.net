@@ -25,6 +25,7 @@ namespace MuninNode {
 		public static string handlerList = null;
 		// Set as public to allow threds to unregister themselves
 		public static List<Thread> threadList = new List<Thread>();
+		private Logger logger = Logger.Instance;
 		
 		// Horible cludge to unlock blocking call of AcceptTcpClient();
 		private int listeningPort = 0;
@@ -58,7 +59,7 @@ namespace MuninNode {
 								int registered_handlers = 0;
 								for (int i = 0; i < pluginhandlers.Length; i++) {
 									if (handlers.ContainsKey(pluginhandlers[i])) {
-										Console.WriteLine(
+										logger.Log(
 											"WARNING: Plugin {0} is trying to register {1} handler but {2} already registered it.",
 											plugin.GetName(),
 											pluginhandlers[i],
@@ -78,7 +79,7 @@ namespace MuninNode {
 								plugin.UnLoad();
 							}
 						} catch (Exception e) {
-							Console.WriteLine("Error while loading {0}: {1}", file, e.ToString());
+							logger.Log("Error while loading {0}: {1}", file, e.ToString());
 						}
 					}
 				}
@@ -97,7 +98,7 @@ namespace MuninNode {
 			#endregion
 			
 			foreach (string h in handlers.Keys) {
-				Console.WriteLine("{0} is handled by {1} version: {2}", h, handlers[h].GetName(), handlers[h].GetVersion());
+				logger.Log("{0} is handled by {1} version: {2}", h, handlers[h].GetName(), handlers[h].GetVersion());
 			}
 			
 			
@@ -107,8 +108,8 @@ namespace MuninNode {
 			try {
 				listener.Start();
 			} catch (SocketException e) {
-				Console.WriteLine(e.Message);
-				Console.WriteLine("Process STOPED");
+				logger.Log(e.Message);
+				logger.Log("Process STOPED");
 				return;
 			}
 
@@ -127,10 +128,9 @@ namespace MuninNode {
 					TcpClient client = listener.AcceptTcpClient();
 					client.ReceiveTimeout = 1000 * inactivity_timeout;
 
-					//Console.WriteLine("Address: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address);
 					if (!allowed_hosts.Has(((IPEndPoint)client.Client.RemoteEndPoint).Address)) {
+						logger.Log("Connection from {0} not allowed. rejected.", ((IPEndPoint)client.Client.RemoteEndPoint).Address);
 						client.Close();
-						//Console.WriteLine("Connection rejected");
 						continue;
 					}
 					
@@ -149,7 +149,7 @@ namespace MuninNode {
 					plugin.UnLoad();
 				}
 				foreach (Thread t in threadList) {
-					Console.WriteLine("Abort thtread");
+					logger.Log("Abort thtread");
 					t.Abort();
 				}
 			}
@@ -200,12 +200,14 @@ namespace MuninNode {
 
 		public static void Main (string[] args) {
 			if (Environment.UserInteractive || Environment.OSVersion.Platform == PlatformID.Unix) {
+				Logger.Instance.EnableConsole();
 				MuninNode t = new MuninNode();
 				t.OnStart();
 				Console.WriteLine("Run started. press return to stop.");
 				Console.ReadLine();
 				t.OnStop();
 			} else {
+				Logger.Instance.EnableEventlog();
 				ServiceBase.Run(new MuninNode());
 			}
 		}

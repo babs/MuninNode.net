@@ -10,6 +10,7 @@ namespace PluginASP {
 		public const string name = "ASP";
 		public const string version = "0.1";
 		private IniParser config = SingletonConfig.Instance;
+		private Logger logger = Logger.Instance;
 		private Dictionary<string, PerformanceCounter> perfcounters = new Dictionary<string, PerformanceCounter>();
 
 		private bool RegisterPerfCounter(string RegistrationName, string CategoryName, string CounterName, string InstanceName) {
@@ -39,10 +40,10 @@ namespace PluginASP {
 			RegisterPerfCounter("asp_err_exec",
 			              Cat, "Errors During Script Runtime", null );
 
-			Console.WriteLine(name + " Loaded");
+			logger.Log("loaded");
 		}
 		public void UnLoad () {
-			Console.WriteLine(name + " Unloaded");
+			logger.Log("unloaded");
 		}
 		public string Fetch (string probe) {
 			if (perfcounters.ContainsKey(probe)) {

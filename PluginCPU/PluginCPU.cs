@@ -12,6 +12,7 @@ namespace PluginCPU {
 		public const string name = "CPU";
 		public const string version = "0.1";
 		private IniParser config = SingletonConfig.Instance;
+		private Logger logger = Logger.Instance;
 		private Dictionary<string, PerformanceCounter> perfcounters = new Dictionary<string, PerformanceCounter>();
 		private Dictionary<string,float?[]> cycliclists = new Dictionary<string, float?[]>();
 		private Thread updater = null;
@@ -72,7 +73,7 @@ namespace PluginCPU {
 			updater = new Thread(UpdateCounters);
 			updater.Start();
 			
-			Console.WriteLine(name + " Loaded");
+			logger.Log("loaded");
 		}
 		
 		private void UpdateCounters () {
@@ -114,7 +115,7 @@ namespace PluginCPU {
 			if (updater != null) {
 				waiter.Set();
 			}
-			Console.WriteLine(name + " Unloaded");
+			logger.Log("unloaded");
 		}
 		public string Fetch (string probe) {
 			StringBuilder result = new StringBuilder();

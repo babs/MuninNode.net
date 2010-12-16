@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 namespace MuninNode {
 	public class ClientHandler {
+		private Logger logger = Logger.Instance;
 		private TcpClient client = null;
 		private char[] argSeparator = new char[] { ' ' };
 		public Thread mythread = null;
@@ -76,16 +77,16 @@ namespace MuninNode {
 							sw.Flush();
 						}
 					}
-				} catch (SystemException) {
-					/*
-					Console.WriteLine(e.Message);
-					Console.WriteLine(e.StackTrace);
-					*/
+				} catch (SystemException e) {
+					if (e.Message == "Read failure") {
+						logger.Log("Connection from {0} closed due to inactivity timeout", client.Client.RemoteEndPoint.ToString());
+					} else {
+						logger.Log("Exception in client handler thread: " + e.Message + "\r\n" + e.StackTrace);
+					}
 				}
 				if ( client.Connected ) {
 					client.Close();
 				}
-				//Console.WriteLine("Client disconnected: {0}", remoteaddr);
 				lock (MuninNode.threadList) {
 					MuninNode.threadList.Remove(mythread);
 				}

@@ -6,12 +6,14 @@ namespace Plugin1 {
 		public const string name = "Plugin1";
 		public const string version = "0.1a";
 		private IniParser config = SingletonConfig.Instance;
+		private Logger logger = Logger.Instance;
+
 
 		public void Load () {
-			Console.WriteLine(name + " Loaded");
+			logger.Log("loaded");
 		}
 		public void UnLoad () {
-			Console.WriteLine(name + " Unloaded");
+			logger.Log("unloaded");
 		}
 		public string Fetch (string probe) {
 			return "Fetch called into Plugin1 (" + probe + ")";
