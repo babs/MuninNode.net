@@ -133,7 +133,6 @@ namespace PluginCPU {
 				sb.Append("graph_category system\n");
 				bool first = true;
 				foreach (string countername in new string[] { "cpu_interrupt_time", "cpu_dpc_time", "cpu_privileged_time", "cpu_user_time", "cpu_idle_time" }) {
-					logger.Log(countername);
 					if (first) {
 						sb.AppendFormat("{0}.draw AREA\n", countername);
 					} else {
