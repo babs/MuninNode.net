@@ -5,16 +5,20 @@ using System.Collections.Generic;
 
 public class Section {
 	private string name = "";
+
 	public string Name {
 		get {
 			return name;
 		}
 	}
+
 	private Dictionary<string, string> options = new Dictionary<string, string>();
+
 	public Section(string name) {
 		this.name = name;
 	}
-	public void Add (string name, string value) {
+
+	public void Add(string name, string value) {
 		if (options.ContainsKey(name)) {
 			options[name] = value;
 		} else {
@@ -22,11 +26,11 @@ public class Section {
 		}
 	}
 	
-	public string GetOption (string optionname) {
+	public string GetOption(string optionname) {
 		return GetOption(optionname, null);
 	}
 	
-	public string GetOption (string optionname, string defval) {
+	public string GetOption(string optionname, string defval) {
 		if (options.ContainsKey(optionname)) {
 			return options[optionname];
 		} else {
@@ -34,7 +38,7 @@ public class Section {
 		}
 	}
 	
-	public string[] GetOptions () {
+	public string[] GetOptions() {
 		List<string> keylist = new List<string>();
 		foreach (string k in options.Keys) {
 			keylist.Add(k);
@@ -42,7 +46,7 @@ public class Section {
 		return keylist.ToArray();
 	}
 
-	public override string ToString () {
+	public override string ToString() {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.AppendLine("[" + name + "]");
@@ -80,7 +84,7 @@ public class IniParser {
 	/// <param name="filename">
 	/// A <see cref="System.String"/>
 	/// </param>
-	public bool parse (string filename) {
+	public bool parse(string filename) {
 		try {
 			parse(new StreamReader(filename));
 			return true;
@@ -95,7 +99,7 @@ public class IniParser {
 	/// <param name="stream">
 	/// A <see cref="StreamReader"/>
 	/// </param>
-	public void parse (StreamReader stream) {
+	public void parse(StreamReader stream) {
 		string sectionName = "DEFAULT";
 		Section currentSection = null;
 		while (!stream.EndOfStream) {
@@ -119,7 +123,7 @@ public class IniParser {
 					sb.Append(splitted_line[i]);
 					if (!splitted_line[i].EndsWith("\\")) {
 						break;
-					} else {
+					} else if (i != splitted_line.Length - 1) {
 						sb.Append(";");
 					}
 				
@@ -146,7 +150,7 @@ public class IniParser {
 	/// <returns>
 	/// A <see cref="System.String"/>
 	/// </returns>
-	public override string ToString () {
+	public override string ToString() {
 		StringBuilder sb = new StringBuilder();
 		if (SectionList.ContainsKey("DEFAULT")) {
 			sb.AppendLine(GetSection("DEFAULT").ToString());
@@ -169,7 +173,7 @@ public class IniParser {
 	/// <returns>
 	/// A <see cref="System.Boolean"/>
 	/// </returns>
-	public bool HasSection (string name) {
+	public bool HasSection(string name) {
 		return SectionList.ContainsKey(name);
 	}
 
@@ -182,7 +186,7 @@ public class IniParser {
 	/// <returns>
 	/// A <see cref="Section"/>
 	/// </returns>
-	public Section GetSection (string name) {
+	public Section GetSection(string name) {
 		if (SectionList.ContainsKey(name)) {
 			return SectionList[name];
 		} else {
@@ -190,7 +194,7 @@ public class IniParser {
 		}
 	}
 	
-	public string[] GetOptions (string sectionnname) {
+	public string[] GetOptions(string sectionnname) {
 		Section s = GetSection(sectionnname);
 		if (s != null) {
 			return s.GetOptions();
@@ -212,7 +216,7 @@ public class IniParser {
 	/// <returns>
 	/// A <see cref="System.String"/>
 	/// </returns>
-	public string GetOption (string sectionname, string optionname) {
+	public string GetOption(string sectionname, string optionname) {
 		return GetOption(sectionname, optionname, null);
 	}
 
@@ -229,7 +233,7 @@ public class IniParser {
 	/// <returns>
 	/// A <see cref="System.String"/>
 	/// </returns>
-	public string GetOption (string sectionname, string optionname, string defval) {
+	public string GetOption(string sectionname, string optionname, string defval) {
 		if (SectionList.ContainsKey(sectionname)) {
 			return SectionList[sectionname].GetOption(optionname, defval);
 		} else {
