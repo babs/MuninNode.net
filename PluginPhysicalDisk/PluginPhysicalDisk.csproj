@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AD338414-D78E-4A0F-9F0A-62CBC1AC0719}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>PluginPhysicalDriveIO</RootNamespace>
+    <AssemblyName>PluginPhysicalDisk</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="BeforeBuild" command="mkdir -p ${SolutionDir}/MuninNode/bin/${ProjectConfigName}/Plugins/" workingdir="${SolutionDir}" />
+        <Command type="AfterBuild" command="cp -p ${TargetFile} ${SolutionDir}/MuninNode/bin/${ProjectConfigName}/Plugins/" workingdir="${SolutionDir}" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="BeforeBuild" command="mkdir -p ${SolutionDir}/MuninNode/bin/${ProjectConfigName}/Plugins/" workingdir="${SolutionDir}" />
+        <Command type="AfterBuild" command="cp -p ${TargetFile} ${SolutionDir}/MuninNode/bin/${ProjectConfigName}/Plugins/" workingdir="${SolutionDir}" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Management" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PluginPhysicalDisk.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\MuninNode\MuninNode.csproj">
+      <Project>{96446148-1CB0-4BA5-B3DE-3E05CA52BC45}</Project>
+      <Name>MuninNode</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
