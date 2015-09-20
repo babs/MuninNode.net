@@ -82,7 +82,11 @@ namespace PluginPhysicalDisk {
 					cycliclists[cntname][indice] = perfcounters[cntname].NextValue();
 				}
 				indice++;
-				if (waiter.WaitOne(1000 - (int)(GetCurrentUnixTimestampMillis() - begints), false)) {
+				long waittime = 1000 - (GetCurrentUnixTimestampMillis() - begints);
+				if (waittime < 0) {
+					waittime = 1;
+				}
+				if (waiter.WaitOne((int)waittime, false)) {
 					break;
 				}
 			}
@@ -108,6 +112,20 @@ namespace PluginPhysicalDisk {
 			}
 		}
 
+		private float GetMax(string countername) {
+			float max = 0;
+			if (cycliclists.ContainsKey(countername)) {
+				foreach (float? val in cycliclists[countername]) {
+					if (val != null) {
+						if (val > max) {
+							max = (float)val;
+						}
+					}
+				}
+			}
+			return max;
+		}
+
 		public void UnLoad() {
 			if (updater != null) {
 				waiter.Set();
@@ -119,6 +137,10 @@ namespace PluginPhysicalDisk {
 			StringBuilder result = new StringBuilder();
 			foreach (string c in cycliclists.Keys) {
 				result.AppendFormat("{0}.value {1}\n", c, GetAverage(c).ToString("0.##", CultureInfo.InvariantCulture));
+				if (c == "disk_transfers_per_sec") {
+					result.AppendFormat("{0}.value {1}\n", c + "_95p", Percentile(c, 95).ToString("0.##", CultureInfo.InvariantCulture));
+					result.AppendFormat("{0}.value {1}\n", c + "_max", GetMax(c).ToString("0.##", CultureInfo.InvariantCulture));
+				}
 			}
 			return result.ToString();
 		}
@@ -141,6 +163,12 @@ namespace PluginPhysicalDisk {
 					*/
 					sb.AppendFormat("{0}.type GAUGE\n", countername);
 					sb.AppendFormat("{0}.label {1}\n", countername, perfcounters[countername].CounterName);
+					if (countername == "disk_transfers_per_sec") {
+						sb.AppendFormat("{0}.type GAUGE\n", countername + "_95p");
+						sb.AppendFormat("{0}.label {1}\n", countername + "_95p", perfcounters[countername].CounterName + " (95p)");
+						sb.AppendFormat("{0}.type GAUGE\n", countername + "_max");
+						sb.AppendFormat("{0}.label {1}\n", countername + "_max", perfcounters[countername].CounterName + " (max)");
+					}
 					//first = false;
 				}
 
@@ -169,5 +197,33 @@ namespace PluginPhysicalDisk {
 				}
 			}
 		}
+
+		// From http://stackoverflow.com/questions/8137391/percentile-calculation
+		public double Percentile(String countername, double excelPercentile) {
+			excelPercentile /= 100;
+			List<float> validvalues = new List<float>();
+			if (cycliclists.ContainsKey(countername)) {
+				foreach (float? val in cycliclists[countername]) {
+					if (val != null) {
+						validvalues.Add((float)val);
+					}
+				}
+			}
+			float[] sequence = validvalues.ToArray();
+			Array.Sort(sequence);
+			int N = sequence.Length;
+			double n = (N - 1) * excelPercentile + 1;
+			// Another method: double n = (N + 1) * excelPercentile;
+			if (n == 1d) {
+				return sequence[0];
+			} else if (n == N) {
+				return sequence[N - 1];
+			} else {
+				int k = (int)n;
+				double d = n - k;
+				return sequence[k - 1] + d * (sequence[k] - sequence[k - 1]);
+			}
+		}
+
 	}
 }
